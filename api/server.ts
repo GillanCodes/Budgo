@@ -39,6 +39,11 @@ const corsOptions:Object = {
 }
 app.use(cors(corsOptions));
 
+//import routes
+import authRoutes from "./src/routes/auth.routes";
+
+//Routes init
+app.use("/api/auth", authRoutes);
 
 //Set up server listen
 app.listen(config.PORT, () : void => {
