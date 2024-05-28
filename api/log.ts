@@ -22,11 +22,9 @@ const sanitizedPath = path.join(__dirname, config.LOG_FOLDER);
 const filePath:string = `${sanitizedPath}${fileName}`;
 
 //Check if "logs" folder exist ?
-fs.readdir(sanitizedPath, (err , data) => {
-    if (err) fs.mkdir(sanitizedPath, (err:any) => {
-        if (err) throw Error(err);
-    });
-});
+if (!fs.existsSync(sanitizedPath)){
+    fs.mkdirSync(sanitizedPath);
+}
 
 //check if log file exist
 fs.readFile(filePath, (err, data) => {
