@@ -38,26 +38,18 @@ userSchema.statics.login = async function (log:string, password:string)
     var user;
 
     if(isEmail(log))
-    {
         user = await userModel.findOne({email: log});
-    }
-    else 
-    {
-        user = await userModel.findOne({username: log});
-    }
+    
+    user = await userModel.findOne({username: log});
+    
+    if (!user) 
+        throw new Error("incorrect_log");
 
-    if (user) 
-    {
-        const auth = await compare(password, user.password);
-        if (auth)
-        {
-            return user
-        }
-        else
-        {
-            throw new Error("Incorrect logs");
-        }
-    }
+    const auth = await compare(password, user.password);
+    if (!auth)
+        throw new Error("incorrect_log");
+    
+    return user;
 }
 
 //default export.
