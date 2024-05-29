@@ -6,7 +6,7 @@ export const loginErrors = (error:any) => {
         errors.logs = "Incorrect 'Username' or 'Email'";
     }
 
-    if (error.message.includes("Incorrect logs"))
+    if (error.message.includes("incorrect_log"))
     {
         errors.password = "Incorrect logs or password"
     }
