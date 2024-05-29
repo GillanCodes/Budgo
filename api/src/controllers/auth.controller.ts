@@ -36,13 +36,10 @@ export const signin = async (req: express.Request, res: express.Response) => {
     
     try {
         var user = await userModel.login(log, password);
-        if (user)
-        {
-            var uid:string = user._id.toString();
-            const token:string = createToken(uid);
-            res.cookie('auth', token, {httpOnly: true, maxAge});
-            return res.status(200).json({user});
-        }
+        var uid:string = user._id.toString();
+        const token:string = createToken(uid);
+        res.cookie('auth', token, {httpOnly: true, maxAge});
+        return res.status(200).json({user});
         
     } catch (error) {
         res.status(201).send(error);
