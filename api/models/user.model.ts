@@ -9,8 +9,15 @@ export interface IUser extends Document {
     username:   string,
     password:   string,
     email:      string,
+    settings:   IUSettings,
     createdAt:  Date | string,
     updatedAt:  Date | string
+}
+
+interface IUSettings
+{
+    theme: string,
+    startDate: string,
 }
 
 // User Model interface init
