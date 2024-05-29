@@ -23,3 +23,20 @@ module.exports.checkUser = async(req: express.Request, res: express.Response, ne
         next();
     }
 }
+
+module.exports.requireAuth = (req: express.Request, res: express.Response, next: () => void) => {
+    const token = req.cookies.auth;
+    if (token)
+    {
+        jwt.verify(token, config.JWT_TOKEN, async (err: any, decodedToken: any) => {
+            if (err)
+            {
+                console.log(err);
+            } else {
+                next();
+            }
+        })
+    } else {
+        return res.status(200);
+    }
+}
