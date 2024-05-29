@@ -1,7 +1,7 @@
 import {sign} from "jsonwebtoken";
 import config from "../../config/config";
 import * as express from "express";
-import userModel, { IUser } from '../../models/user.model';
+import userModel from '../../models/user.model';
 import log from "../../log";
 
 /**
@@ -40,7 +40,7 @@ export const signin = async (req: express.Request, res: express.Response) => {
         const token:string = createToken(uid);
         res.cookie('auth', token, {httpOnly: true, maxAge});
         return res.status(200).json({user});
-        
+
     } catch (error) {
         res.status(201).send(error);
     };
