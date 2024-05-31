@@ -1,7 +1,7 @@
 import * as express from "express"
-import { isEmpty } from "validator";
 import entryModel from "../../models/entry.model";
 import { isValidObjectId } from "mongoose";
+import isEmpty from "../utils/isEmpty";
 
 export const getEntries = async (req: express.Request, res: express.Response) => {
     if (isEmpty(res.locals.user))
