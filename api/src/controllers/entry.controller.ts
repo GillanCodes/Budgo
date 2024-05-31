@@ -101,6 +101,29 @@ export const patchEntry = (req: express.Request, res: express.Response) => {
     }
 }
 
-export const deleteEntries = (req: express.Request, res: express.Response) => {
+export const deleteEntries = async (req: express.Request, res: express.Response) => {
+    try {        
+        const { id } = req.params;
 
+        if(isEmpty(id))
+            throw Error("empty_field_id");
+        if (!isValidObjectId(id))
+            throw Error("not_valid_id");
+        if (isEmpty(res.locals.user))
+            throw Error("not_logged");
+
+        try {
+
+        await entryModel.find({_id: id, userId:res.locals.user._id}).deleteOne();
+        return res.status(201).send({id});
+            
+        } catch (error) {
+            // TODO : Error Handle
+            console.log(error);
+        }
+
+    } catch (error) {
+        // TODO : Error Handle
+        console.log(error);
+    }
 }
