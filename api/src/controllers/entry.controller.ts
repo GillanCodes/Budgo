@@ -39,13 +39,14 @@ export const getEntry = async (req: express.Request, res: express.Response) => {
 export const postEntry = (req: express.Request, res: express.Response) => {
     try {
         
-        const {date, type, amount} = req.body;
+        const {name, date, type, amount} = req.body;
 
         if (isEmpty(date) || isEmpty(type) || isEmpty(amount) )
             throw Error("post_entry_empty_field");
 
         entryModel.create({
             userId: res.locals.user._id,
+            name,
             date,
             type,
             amount
@@ -63,7 +64,7 @@ export const postEntry = (req: express.Request, res: express.Response) => {
 }
 
 export const patchEntry = (req: express.Request, res: express.Response) => {
-
+    
 }
 
 export const deleteEntries = (req: express.Request, res: express.Response) => {
