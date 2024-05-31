@@ -103,7 +103,7 @@ export const patchEntry = (req: express.Request, res: express.Response) => {
 
 export const deleteEntry = async (req: express.Request, res: express.Response) => {
     try {        
-        const { id } = req.body;
+        const { id } = req.params;
 
         if(isEmpty(id))
             throw Error("empty_field_id");
