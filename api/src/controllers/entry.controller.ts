@@ -1,6 +1,7 @@
 import * as express from "express"
 import { isEmpty } from "validator";
 import entryModel from "../../models/entry.model";
+import { isValidObjectId } from "mongoose";
 
 export const getEntries = async (req: express.Request, res: express.Response) => {
     if (isEmpty(res.locals.user))
@@ -15,8 +16,24 @@ export const getEntries = async (req: express.Request, res: express.Response) =>
     }
 }
 
-export const getEntry = (req: express.Request, res: express.Response) => {
+export const getEntry = async (req: express.Request, res: express.Response) => {
+    if (isEmpty(res.locals.user))
+        throw Error("not_logged");
 
+    const { id } = req.params;
+
+    if (isEmpty(id))
+        throw Error("empty_field_id");
+    if (!isValidObjectId(id))
+        throw Error("not_valid_id");
+
+    try {
+        const entries = await entryModel.find({_id: id,userId: res.locals.user._id}).sort({createdAt: -1});
+        return res.status(200).send(entries);
+    } catch (error) {
+        //TODO : Error Handle
+        console.log(error);
+    }
 }
 
 export const postEntry = (req: express.Request, res: express.Response) => {
