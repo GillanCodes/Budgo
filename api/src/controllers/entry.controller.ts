@@ -2,8 +2,17 @@ import * as express from "express"
 import { isEmpty } from "validator";
 import entryModel from "../../models/entry.model";
 
-export const getEntries = (req: express.Request, res: express.Response) => {
+export const getEntries = async (req: express.Request, res: express.Response) => {
+    if (isEmpty(res.locals.user))
+        throw Error("not_logged");
 
+    try {
+        const entries = await entryModel.find({userId: res.locals.user._id}).sort({createdAt: -1});
+        return res.status(200).send(entries);
+    } catch (error) {
+        //TODO : Error Handle
+        console.log(error);
+    }
 }
 
 export const getEntry = (req: express.Request, res: express.Response) => {
