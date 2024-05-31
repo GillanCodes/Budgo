@@ -41,7 +41,7 @@ export const postEntry = (req: express.Request, res: express.Response) => {
         
         const {name, date, type, amount} = req.body;
 
-        if (isEmpty(date) || isEmpty(type) || isEmpty(amount) )
+        if (isEmpty(date) || isEmpty(type) || isEmpty(amount) || isEmpty(name))
             throw Error("post_entry_empty_field");
 
         entryModel.create({
@@ -64,7 +64,7 @@ export const postEntry = (req: express.Request, res: express.Response) => {
 }
 
 export const patchEntry = (req: express.Request, res: express.Response) => {
-    
+
 }
 
 export const deleteEntries = (req: express.Request, res: express.Response) => {
