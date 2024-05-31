@@ -64,7 +64,41 @@ export const postEntry = (req: express.Request, res: express.Response) => {
 }
 
 export const patchEntry = (req: express.Request, res: express.Response) => {
+    if (isEmpty(res.locals.user))
+        throw Error("not_logged");
 
+    const { id } = req.params;
+
+    if (isEmpty(id))
+        throw Error("empty_field_id");
+    if (!isValidObjectId(id))
+        throw Error("not_valid_id");
+
+    const {name, amount, type, date} = req.body;
+    
+    if (isEmpty(date) || isEmpty(type) || isEmpty(amount) || isEmpty(name))
+            throw Error("post_entry_empty_field");
+
+    try {
+        
+        entryModel.findByIdAndUpdate(id, {
+            $set: {
+                name,
+                amount,
+                type,
+                date,
+            }
+        }, {upsert: true, new: true}).then((data) => {
+            return res.status(201).send(data);
+        }).catch((err) => {
+            // TODO : Error Handle
+            console.log(err);
+        })
+
+    } catch (error) {
+        //TODO : Error Handle
+        console.log(error);
+    }
 }
 
 export const deleteEntries = (req: express.Request, res: express.Response) => {
