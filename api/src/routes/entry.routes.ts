@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { deleteEntries, getEntries, getEntry, patchEntry, postEntry } from '../controllers/entry.controller';
+import { deleteEntry, getEntries, getEntry, patchEntry, postEntry } from '../controllers/entry.controller';
 let router:Router = Router();
 
 router.get('/', getEntries);
@@ -9,6 +9,6 @@ router.post('/', postEntry);
 
 router.patch('/:id', patchEntry);
 
-router.delete('/', deleteEntries);
+router.delete('/:id', deleteEntry);
 
 export default router;
